@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+</head>
+<body>
+  <p>こんにちは</p>
+
+  <ul>
+    <li>
+      要件：File System Access API はセキュアコンテキストでのみ動作します。
+      <br />
+      したがって file:// または https:// である必要があります。 <br />
+      http://localhost では動作しません。
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      動かすには：ボタンをクリックしてください。
+      <ul>
+        <li>保存したいファイルを選んでください</li>
+        <li>パーミッションを与えてください</li>
+        <li>hello.txtが出力されていることを確認します</li>
+      </ul>
+    </li>
+  </ul>
+
+  <button>こんにちは</button>
+  <script type="text/javascript">
+
+    var button = document.querySelector("button");
+
+    button.addEventListener("click", async function () {
+      var dh = await window.showDirectoryPicker();
+      await dh.requestPermission({ mode: "readwrite" });
+      var fh = await dh.getFileHandle("hello.txt", { create: true });
+      var st = await fh.createWritable();
+      await st.write("こんにちは");
+      await st.close();
+    });
+    
+  </script>
+</body>
